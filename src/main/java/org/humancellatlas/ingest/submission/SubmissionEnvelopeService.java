@@ -106,7 +106,7 @@ public class SubmissionEnvelopeService {
         }
     }
 
-    private void archiveSubmission(SubmissionEnvelope envelope) {
+    public void archiveSubmission(SubmissionEnvelope envelope) {
         if (!envelope.getIsUpdate()) {
             exporter.exportManifests(envelope);
         } else {
