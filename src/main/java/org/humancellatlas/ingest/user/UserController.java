@@ -3,9 +3,13 @@ package org.humancellatlas.ingest.user;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
+
 import org.humancellatlas.ingest.project.Project;
 import org.humancellatlas.ingest.project.ProjectRepository;
 import org.humancellatlas.ingest.security.Account;
+import org.humancellatlas.ingest.security.AccountRepository;
 import org.humancellatlas.ingest.security.Role;
 import org.humancellatlas.ingest.state.SubmissionState;
 import org.humancellatlas.ingest.submission.SubmissionEnvelope;
@@ -36,6 +40,9 @@ public class UserController implements ResourceProcessor<RepositoryLinksResource
 
     @Autowired
     ProjectRepository projectRepository;
+    
+    @Autowired
+    AccountRepository accountRepository;
 
     @Autowired
     private PagedResourcesAssembler<SubmissionEnvelope> submissionEnvelopePagedResourcesAssembler;
@@ -91,13 +98,18 @@ public class UserController implements ResourceProcessor<RepositoryLinksResource
         } else {
             projects = projectRepository.findByUser(getCurrentAccount().getId(), pageable);
         }
-        
+
         PagedResources<Resource<Project>> pagedResources = projectPagedResourcesAssembler.toResource(projects);
         for (Resource<Project> resource : pagedResources)
         {
             resource.add(entityLinks.linkForSingleResource(resource.getContent()).withRel(Link.REL_SELF));
         }
         return pagedResources;
+    }
+    
+    @RequestMapping(value = "/wranglers")
+    public List<Account> getWranglers() {
+        return accountRepository.findByRoles(Role.WRANGLER.name());
     }
 
     private Account getCurrentAccount() {

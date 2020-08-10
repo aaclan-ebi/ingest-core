@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ChangeLog
-public class MongoChangeLog {
+public class MongoChangeLog {/*
     @ChangeSet(order = "2019-10-30", id = "featureCompatibilityVersion 3.4", author = "alexie.staffer@ebi.ac.uk")
     public void featureCompatibilityThreeFour(MongoDatabase db) {
         if (MongoVersionHelper.featureCompatibilityLessThan(db, "3.4"))
@@ -83,5 +83,5 @@ public class MongoChangeLog {
         update.add(new Document("$set", Document.parse("{ submissionEnvelope: { $arrayElemAt: [ \"$submissionEnvelopes\", 0 ] } }")));
 
         db.getCollection("project").updateMany(filter, update);
-    }
+    }*/
 }
